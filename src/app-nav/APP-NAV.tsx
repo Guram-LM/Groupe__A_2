@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom"
 import AppLayout from "../pages/AppLayout"
-import Home from "../pages/home/home"
+import Countrys from "../pages/countrys/Countrys"
+import Home from "../pages/home/Home"
 
 
 const APP_NAV = () => {
@@ -8,6 +9,7 @@ const APP_NAV = () => {
     <Routes>
         <Route path="/" element={<AppLayout/>} >
             <Route index element={<Home/>}/>
+            <Route path="countrys" element={<Countrys/>}/>
         </Route>
     </Routes>
   )
