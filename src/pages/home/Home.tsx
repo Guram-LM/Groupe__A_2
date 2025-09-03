@@ -1,8 +1,15 @@
-import React from 'react'
+
+import SectionEin from './SectionEin'
+import SectionZwei from './SectionZwei'
+import SectionDrei from './SectionDrei'
 
 const Home = () => {
   return (
-    <div>home</div>
+    <main className="bg-blue-50 min-h-screen">
+      <SectionEin/>
+      <SectionZwei/>
+      <SectionDrei/>
+    </main>
   )
 }
 
