@@ -2,6 +2,7 @@ import React from 'react'
 import type { CountryType } from './CountrysInterface'
 import { HauptstatIcon, LocationIcon, UserIcon } from './SearchIcon'
 import Fav_Add from './Fav_Add'
+
 interface PrppsType {
     filterData: CountryType[] | undefined
 }
