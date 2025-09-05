@@ -1,5 +1,4 @@
 import useFatchCountrys from "../../components/hook/useFatchCountrys"
-import CountryCards from "./CountryCards"
 import Search from "./Search"
 
 
@@ -13,12 +12,10 @@ const Countrys = () => {
             </h1>
         </div>
     )
-  return (
-    <main>
-        <Search data={data}/>
-        <CountryCards data={data}/>
-    </main>
-  )
+
+  return <Search data={data}/>
+    
+  
 }
 
 export default Countrys
