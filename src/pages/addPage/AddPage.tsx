@@ -1,29 +1,70 @@
+import useFatchPlan from "../../components/hook/useFatchPlan"
+import { usePlanState } from "../../zushtand/PlanState"
+import AddCard from "./AddCard"
+import type { PlanDataType } from "./interfaceAddPage"
+import MyPlan from "./MyPlan"
+import OhneCard from "./OhneCard"
+import OhnePlan from "./OhnePlan"
+import PageHeder from "./PageHeder"
 
 interface AddPagePrpps {
     open: boolean
     setOpen: () => void
 }
 const AddPage:React.FC<AddPagePrpps> = ({open, setOpen}) => {
+
+  const { planState, clearPlan, removePlan } = usePlanState()
+  const {data, isLoading} = useFatchPlan("myplan")
+
+    const planData: PlanDataType[] = data?.map(item => ({
+        id: item.id,
+        resource: item.resource,
+        zeit: item.createdAt,
+        groupName: item.data.planName,
+        countries: item.data.countries
+    })) ?? [];
+
+    if(isLoading) return (
+        <div className="flex items-center justify-center min-h-screen">
+            <h1 className="text-2xl font-bold text-blue-600 animate-pulse">
+                Loading...
+            </h1>
+        </div>
+    )
+
+  
   return (
      <aside
       className={`
-        fixed top-0 right-0 h-full w-80 bg-white shadow-lg z-40
+        fixed top-0 right-0 h-full w-110 bg-white shadow-lg z-40
         transition-transform duration-300
         ${open ? "translate-x-0" : "translate-x-full"}
       `}
     >
       
-      <div className="p-4 border-b flex justify-between items-center">
-        <h2 className="font-semibold text-lg">Plan a Trip</h2>
-        <button onClick={setOpen} className="text-blue-800 text-xl font-bold">
-          ✕
-        </button>
-      </div>
+        <PageHeder setOpen={setOpen}/>
 
-      
-      <div className="p-4">
-        AddPage content here...
-      </div>
+        <div className="m-6 gap-6">
+          {
+            planState.length > 0 ? (
+              <AddCard data={planState} clearPlan={clearPlan} removePlan={removePlan}/>
+            ) : ( 
+              <OhneCard/>
+            )
+          }
+
+          {
+            planData.length > 0 ? (
+              <MyPlan planData={planData}/>
+            ) : (
+              <OhnePlan/>
+            )
+          }
+          
+          
+          
+        </div>
+        
     </aside>
   )
 }
