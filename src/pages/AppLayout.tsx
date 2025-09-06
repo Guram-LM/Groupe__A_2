@@ -1,20 +1,23 @@
 import { Outlet } from "react-router-dom"
 import Header from "../components/header/Header"
-import { useState } from "react"
 import AddPage from "./addPage/AddPage"
+import { useOpenClose } from "../zushtand/OpenClose"
 
 
 const AppLayout = () => {
-  const [open, setOpen] = useState<boolean>(false)
+
+  const {open, closeSidebar} = useOpenClose()
+  
   return (
     <main>
-        <Header onClick={() => setOpen(true)}/>
+  
+        <Header/>
 
-        <div className={`flex-1 transition-all duration-300 ${open ? "mr-80" : "mr-0"} `}>
+        <div onClick={closeSidebar} className={`flex-1 transition-all duration-300 ${open ? "mr-80" : "mr-0"} `}>
           <Outlet/>
         </div>
 
-        <AddPage open={open} setOpen={() => setOpen(false)}/>
+        <AddPage />
         
     </main>
   )

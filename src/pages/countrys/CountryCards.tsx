@@ -2,24 +2,23 @@ import React from 'react'
 import type { CountryType } from './CountrysInterface'
 import { HauptstatIcon, LocationIcon, UserIcon } from './SearchIcon'
 import Fav_Add from './Fav_Add'
+import useformatPopulation from '../../components/hook/useformatPopulation'
+import { useOpenClose } from '../../zushtand/OpenClose'
 
 interface PrppsType {
     filterData: CountryType[] | undefined
 }
 const CountryCards:React.FC<PrppsType> = ({filterData}) => {
 
-    const formatPopulation = (population: number) :string=> {
-        if(population >= 1000000) {
-            return (population / 1000000).toFixed(1) + "M"
-        } else if (population >= 1000) {
-            return (population / 1000).toFixed(1) + "K"
-        }
-
-        return population.toString()
-    }
+    const {formatPopulation} = useformatPopulation()
+    const {open} = useOpenClose()
     
   return (
-    <section className="max-w-[1200px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
+    <section 
+        className={`max-w-[1200px] mx-auto grid grid-cols-1 sm:grid-cols-2 ${
+            open ? "w-[800px] ml-35 lg:grid-cols-3" : "lg:grid-cols-4"
+        } gap-6 p-4`}
+    >
         {filterData?.map((card, ind) => (
             <div
             key={ind}
@@ -32,7 +31,7 @@ const CountryCards:React.FC<PrppsType> = ({filterData}) => {
                     alt="Country_Flags"
                     className="w-full h-full object-cover"
                     />
-                    <Fav_Add data={card}/>
+                    <Fav_Add planDdata={card}/>
                 </div>
 
             

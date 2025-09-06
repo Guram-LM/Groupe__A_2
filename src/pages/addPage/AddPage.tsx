@@ -1,4 +1,5 @@
 import useFatchPlan from "../../components/hook/useFatchPlan"
+import { useOpenClose } from "../../zushtand/OpenClose"
 import { usePlanState } from "../../zushtand/PlanState"
 import AddCard from "./AddCard"
 import type { PlanDataType } from "./interfaceAddPage"
@@ -7,11 +8,10 @@ import OhneCard from "./OhneCard"
 import OhnePlan from "./OhnePlan"
 import PageHeder from "./PageHeder"
 
-interface AddPagePrpps {
-    open: boolean
-    setOpen: () => void
-}
-const AddPage:React.FC<AddPagePrpps> = ({open, setOpen}) => {
+
+const AddPage:React.FC= () => {
+
+  const {open, closeSidebar} = useOpenClose()
 
   const { planState, clearPlan, removePlan } = usePlanState()
   const {data, isLoading} = useFatchPlan("myplan")
@@ -42,7 +42,7 @@ const AddPage:React.FC<AddPagePrpps> = ({open, setOpen}) => {
       `}
     >
       
-        <PageHeder setOpen={setOpen}/>
+        <PageHeder setOpen={closeSidebar}/>
 
         <div className="m-6 gap-6">
           {
