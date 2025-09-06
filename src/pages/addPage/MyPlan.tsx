@@ -1,5 +1,6 @@
 
-import useDeletePlan from '../../components/hook/useDeletePlan'
+
+import useDeleteItem from '../../components/hook/useDeletePlan'
 import { Del_Icon } from './AddIcons'
 import type { PlanDataType } from './interfaceAddPage'
 
@@ -8,7 +9,7 @@ interface MyPlanType {
     planData: PlanDataType[]
 }
 const MyPlan:React.FC<MyPlanType> = ({planData}) => {
-    const {mutate} = useDeletePlan("myplan")
+    const {mutate} = useDeleteItem("myplan")
     const delPlan = (id: string) => {
         mutate(id)
     }

@@ -1,6 +1,8 @@
 
 import useFatchFavorites from '../../components/hook/useFatchFavorites'
+import Search from '../countrys/Search'
 import DefaultPage from './DefaultPage'
+import type { FavoriteDataType } from './favoritesInterface'
 
 const Favorites = () => {
 
@@ -13,11 +15,19 @@ const Favorites = () => {
             </h1>
         </div>
     )
-    console.log(data)
+    
+    const favorites:FavoriteDataType[] = data?.map(item => 
+    ({...item.data, id: item.id})) ?? []
   return (
    
         <>
-            <DefaultPage/>
+            {
+                favorites.length > 0 ? (
+                    <Search data={favorites}  />
+                ) : (
+                    <DefaultPage/>
+                )
+            }
         </>
   
   )
