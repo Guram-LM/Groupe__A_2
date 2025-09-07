@@ -123,7 +123,7 @@ const AddPage: React.FC = () => {
     <aside
       className={`
         fixed top-0 right-0 h-full w-110 bg-white shadow-lg z-40
-        transition-transform duration-300
+        transition-transform duration-300 overflow-y-auto
         ${open ? 'translate-x-0' : 'translate-x-full'}
       `}
       onDragOver={handleDragOver} // საიდბარი drop zone-ია
