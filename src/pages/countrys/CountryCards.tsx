@@ -88,6 +88,8 @@ const CountryCards: React.FC<PropsType> = ({ filterData }) => {
     dragPreview.style.transform = 'scale(1)';
     dragPreview.style.boxShadow = '0 8px 24px rgba(0,0,0,0.25)';
     dragPreview.style.zIndex = '9999';
+    dragPreview.style.filter = 'brightness(1.2) drop-shadow(0 10px 30px rgba(0,0,0,0.4))';
+
     document.body.appendChild(dragPreview);
     const rect = e.currentTarget.getBoundingClientRect();
     e.dataTransfer.setDragImage(dragPreview, rect.width / 2, rect.height / 2);
