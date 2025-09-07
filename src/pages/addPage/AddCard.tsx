@@ -1,6 +1,6 @@
 import { useState } from "react"
 import type { CountryType } from "../countrys/CountrysInterface"
-import { Del_Icon, SaveIcon } from "./AddIcons"
+import { Del_Icon, DragendIcon, SaveIcon } from "./AddIcons"
 import SendPlan from "./SendPlan"
 
 interface AddCardProps {
@@ -14,7 +14,7 @@ const AddCard:React.FC<AddCardProps> = ({data, clearPlan, removePlan}) => {
     <section >
         <div className="bg-blue-100 border-2 border-dashed border-blue-400 rounded-lg p-7 ">
 
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mb-3">
                 <h1 className="text-lg font-semibold text-blue-700">Current Trip</h1>
                 <button
                 onClick={clearPlan}
@@ -26,19 +26,20 @@ const AddCard:React.FC<AddCardProps> = ({data, clearPlan, removePlan}) => {
 
             {data?.map(item => (
                 <div
-                key={item.name.common}
-                className="bg-white border border-none rounded-lg p-4 flex flex-col space-y-4 shadow-md"
+                    key={item.name.common}
+                    className="bg-white border border-none rounded-lg p-3 flex flex-col space-y-4 shadow-md mb-3"
                 >
                 
                 <div className="flex items-center gap-4">
+                    <DragendIcon/>
                     <img
                     src={item.flags.png}
                     alt="flags images"
-                    className="w-20 h-14 object-cover rounded"
+                    className="w-10 h-5 object-cover rounded"
                     />
                     <div className="flex flex-col">
                     <h2 className="text-md font-semibold">{item.name.common}</h2>
-                    <p className="text-gray-600">{item.continents[0]}</p>
+                    <p className="text-gray-600 ">{item.continents[0]}</p>
                     </div>
 
             
