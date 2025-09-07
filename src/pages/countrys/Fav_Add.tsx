@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify'
 import useDeleteItem from '../../components/hook/useDeletePlan'
 import useFatchFavorites from '../../components/hook/useFatchFavorites'
 import useSendFavorite from '../../components/hook/useSendFavorite'
@@ -20,11 +21,19 @@ const Fav_Add:React.FC<Fav_AddProps> = ({planDdata}) => {
     mutate(planDdata)
   }
 
-  const {addPlan} = usePlanState()
+  const {addPlan, planState} = usePlanState()
 
   const addDataState = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
-    addPlan(planDdata)
+
+    const validCard = planState.some(item => item.name.common === planDdata.name.common)
+
+    if(validCard) {
+        return toast.info("ეს ქვეყანა უკვე დამატებულია")
+    } else {
+        addPlan(planDdata)
+        toast.success("აქჩეული ქვეყანა დაემატა")
+    }
     
   }
 

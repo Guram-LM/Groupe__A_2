@@ -19,7 +19,7 @@ const SectionEin = () => {
             Explore Places
           </Link>
           <Link
-            to={"/"}
+            to={"/heroSection"}
             className="px-6 py-3 border border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition"
           >
             Learn More

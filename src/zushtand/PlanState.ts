@@ -15,7 +15,7 @@ export const usePlanState = create<StateType>((set) => ({
         const isInclude = state.planState.some(item =>
             item.name.common === data.name.common
         )
-        if(isInclude) return state
+        if(isInclude) return state 
 
         return {planState: [...state.planState, data]}
     }),
