@@ -67,8 +67,10 @@ interface PropsType {
   filterData: CountryType[] | undefined;
 }
 const CountryCards: React.FC<PropsType> = ({ filterData }) => {
+
   const { formatPopulation } = useformatPopulation();
   const { open } = useOpenClose();
+
   const [daTailPage, setDatailsPage] = useState<CountryType | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [draggingCardId, setDraggingCardId] = useState<string | null>(null);
@@ -107,31 +109,39 @@ const CountryCards: React.FC<PropsType> = ({ filterData }) => {
   return (
     <div className="relative">
       {/* Overlay for background dimming during drag */}
-      {isDragging && (
+      {isDragging && open && (
         <div className="fixed inset-0 bg-black/50 z-10 pointer-events-none" />
       )}
       <section
         className={`max-w-[1200px] mx-auto grid grid-cols-1 sm:grid-cols-2 ${
           open ? 'w-[800px] ml-35 lg:grid-cols-3' : 'lg:grid-cols-4'
-        } gap-6 p-4 relative z-20`}
+        } gap-6 p-4 relative `}
       >
         {filterData?.map((card, ind) => {
           const isCurrentDragging = isDragging && card.name.common === draggingCardId;
           const isOtherCard = isDragging && !isCurrentDragging;
+          const canDrag = open && filterData.length > 0;
           return (
             <div
               key={ind}
               className={`bg-white rounded-lg shadow-md overflow-hidden flex flex-col transition-all duration-200 ${
-                isCurrentDragging
-                  ? 'scale-105 shadow-xl z-30' // წამოღებული ქარდი მკაფიოდ
-                  : isOtherCard
-                  ? 'opacity-50 pointer-events-none scale-95' // დანარჩენი უბრალოდ მუქი/გამჭვირვალე
+                canDrag && isCurrentDragging
+                  ? 'scale-105 shadow-xl z-30'
+                  : canDrag && isOtherCard
+                  ? 'opacity-50 pointer-events-none scale-95'
                   : 'hover:scale-105 hover:shadow-lg'
               }`}
-              draggable={!isOtherCard}
-              onDragStart={(e) => handleDragStart(e, card)}
+              draggable={canDrag && !isOtherCard}
+              onDragStart={(e) => canDrag && handleDragStart(e, card)}
               onDragEnd={handleDragEnd}
               onClick={() => !isDragging && setDatailsPage(card)}
+              style={{
+                cursor: canDrag
+                  ? isCurrentDragging
+                    ? 'grabbing'
+                    : 'grab'
+                  : 'default'
+              }}
             >
               <div className="w-full aspect-[4/3] max-h-40 relative">
                 <img

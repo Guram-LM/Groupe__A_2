@@ -4,6 +4,7 @@ import { Filter, Serch } from './SearchIcon'
 import CountryCards from './CountryCards'
 import { HerzIcon } from '../favorites/FavoritesIconst'
 import { Link } from 'react-router-dom'
+import { useOpenClose } from '../../zushtand/OpenClose'
 
 interface PrppsType {
     data: CountryType[] | undefined
@@ -12,6 +13,8 @@ const Search:React.FC<PrppsType> = ({data}) => {
 
     const [searchCountry, setSearchCountry] = useState("")
     const [filterRegion, setFilterRegion] = useState("All")
+
+    const { open } = useOpenClose()
 
     const regions = Array.from(new Set(data?.map((item) => item.region)));
 
@@ -61,6 +64,7 @@ const Search:React.FC<PrppsType> = ({data}) => {
 
                 <div className="max-w-[1200px] mx-auto flex flex-col md:flex-row items-center pb-4 text-gray-500 text-sm">
                     Showing {filterData?.length || 0} of {data?.length || 0} countries
+                    {open &&  <p className='text-blue-500 ml-2.5 font-bold'>. Drag Countrys to the trip planner to add team</p>}
                 </div>
 
             </div>

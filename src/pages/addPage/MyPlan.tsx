@@ -1,6 +1,8 @@
 
 
 import useDeleteItem from '../../components/hook/useDeletePlan'
+import { usePlanState } from '../../zushtand/PlanState'
+import type { CountryType } from '../countrys/CountrysInterface'
 import { Del_Icon } from './AddIcons'
 import type { PlanDataType } from './interfaceAddPage'
 
@@ -13,6 +15,9 @@ const MyPlan:React.FC<MyPlanType> = ({planData}) => {
     const delPlan = (id: string) => {
         mutate(id)
     }
+
+    const {addPlan} = usePlanState()
+
   return (
     <section className="space-y-4">
   {planData.map((item) => (
@@ -47,7 +52,12 @@ const MyPlan:React.FC<MyPlanType> = ({planData}) => {
           </span>
         )}
       </div>
-      <button className="mt-2 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+      <button 
+        onClick={() => {
+        item.countries.forEach(country => addPlan(country))
+        }} 
+        className="mt-2 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+      >
         Load Trip
       </button>
     </div>

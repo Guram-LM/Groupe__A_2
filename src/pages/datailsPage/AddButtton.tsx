@@ -6,6 +6,7 @@ import useFatchFavorites from '../../components/hook/useFatchFavorites';
 import type { FavoriteDataType } from '../favorites/favoritesInterface';
 import useDeleteItem from '../../components/hook/useDeletePlan';
 import { Delete_Herz, F_D_Herz } from '../favorites/FavoritesIconst';
+import { toast } from 'react-toastify';
 
 interface AddButtonProps {
     countryCard: CountryType;
@@ -17,16 +18,23 @@ const AddButtton:React.FC<AddButtonProps> = ({countryCard}) => {
     const sendData = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
         mutate(countryCard)
+        
     }
 
 
 
-    const {addPlan} = usePlanState()
+    const {addPlan, planState} = usePlanState()
 
     const addDataState = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
-        addPlan(countryCard)
-        
+
+        const valisCard = planState.some(item => item.name.common === countryCard.name.common)
+        if(valisCard) {
+            return toast.info("ეს ქვეყანა უკვე დამატებულია")
+        } else {
+            addPlan(countryCard)
+            toast.success("აქჩეული ქვეყანა დაემატა")
+        }
     }
 
 
