@@ -14,7 +14,6 @@ const Header:React.FC= () => {
   const onClic = () => {
     if(location.pathname === "/") {
       navigate("/countrys")
-      openSidebar()
     } else {
       openSidebar()
     }
