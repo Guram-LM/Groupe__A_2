@@ -1,82 +1,83 @@
-import { useState } from "react"
-import type { CountryType } from "../countrys/CountrysInterface"
-import { Del_Icon, DragendIcon, SaveIcon } from "./AddIcons"
-import SendPlan from "./SendPlan"
+import { useState } from "react";
+import { DndContext, closestCenter, useSensor, useSensors, PointerSensor, KeyboardSensor } from "@dnd-kit/core";
+import { arrayMove, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { SortableItem } from "./SortableItem";
+import type { CountryType } from "../countrys/CountrysInterface";
+import { SaveIcon } from "./AddIcons";
+import SendPlan from "./SendPlan";
 
 interface AddCardProps {
-    data: CountryType[]
-    removePlan: (name: string) => void 
-    clearPlan: () => void
+  data: CountryType[];
+  removePlan: (name: string) => void;
+  clearPlan: () => void;
+  updatePlanOrder: (newData: CountryType[]) => void;
 }
-const AddCard:React.FC<AddCardProps> = ({data, clearPlan, removePlan}) => {
-    const [wechselnButt, setWechselnButt] = useState(false)
-  return (
-    <section >
-        <div className="bg-blue-100 border-2 border-dashed border-blue-400 rounded-lg p-7 ">
 
+const AddCard: React.FC<AddCardProps> = ({ data, clearPlan, removePlan, updatePlanOrder }) => {
+  const [wechselnButt, setWechselnButt] = useState(false);
+
+  // სენსორები drag-and-drop-ისთვის (მაუსი და კლავიატურა)
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // მაუსის მგრძნობელობა drag-ის დასაწყებად
+      },
+    }),
+    useSensor(KeyboardSensor)
+  );
+
+  // Drag-ის დასრულების დამმუშავებელი
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      const oldIndex = data.findIndex((item) => item.name.common === active.id);
+      const newIndex = data.findIndex((item) => item.name.common === over.id);
+      const newData = arrayMove(data, oldIndex, newIndex);
+      updatePlanOrder(newData);
+    }
+  };
+
+  return (
+    <section>
+      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <SortableContext items={data.map((item) => item.name.common)} strategy={verticalListSortingStrategy}>
+          <div className="bg-blue-100 border-2 border-dashed border-blue-400 rounded-lg p-7">
             <div className="flex justify-between items-center mb-3">
-                <h1 className="text-lg font-semibold text-blue-700">Current Trip</h1>
-                <button
+              <h1 className="text-lg font-semibold text-blue-700">Current Trip</h1>
+              <button
                 onClick={clearPlan}
                 className="text-red-500 hover:text-red-600 font-medium"
-                >
+              >
                 Clear All
-                </button>
+              </button>
             </div>
 
-            {data?.map(item => (
-                <div
-                    key={item.name.common}
-                    className="bg-white border border-none rounded-lg p-3 flex flex-col space-y-4 shadow-md mb-3"
-                >
-                
-                <div className="flex items-center gap-4">
-                    <DragendIcon/>
-                    <img
-                    src={item.flags.png}
-                    alt="flags images"
-                    className="w-10 h-5 object-cover rounded"
-                    />
-                    <div className="flex flex-col">
-                    <h2 className="text-md font-semibold">{item.name.common}</h2>
-                    <p className="text-gray-600 ">{item.continents[0]}</p>
-                    </div>
-
-            
-                    <div className="ml-auto">
-                    <button
-                        onClick={() => removePlan(item.name.common)}
-                        className="p-2 rounded hover:bg-red-100"
-                    >
-                        <Del_Icon  />
-                    </button>
-                    </div>
-                </div>
-                </div>
+            {data?.map((item) => (
+              <SortableItem
+                key={item.name.common}
+                id={item.name.common}
+                item={item}
+                removePlan={removePlan}
+              />
             ))}
+          </div>
+        </SortableContext>
+      </DndContext>
 
-        </div>
+      {!wechselnButt ? (
+        <button
+          onClick={() => setWechselnButt(true)}
+          className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 flex items-center justify-center gap-2 w-full my-10"
+        >
+          <SaveIcon />
+          Save Trip
+        </button>
+      ) : (
+        <SendPlan setWechselnButt={setWechselnButt} />
+      )}
+    </section>
+  );
+};
 
-        {
-            !wechselnButt ? (
-                <button
-                    onClick={() => setWechselnButt(true)}
-                    className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 flex items-center justify-center gap-2 w-full my-10"
-                >
-                    <SaveIcon />
-                    Save Trip
-                </button>
-            ) : (
-                <SendPlan setWechselnButt={setWechselnButt} />
-            )
-        }
-       
-
-        
-
-</section>
-
-  )
-}
-
-export default AddCard
+export default AddCard;
