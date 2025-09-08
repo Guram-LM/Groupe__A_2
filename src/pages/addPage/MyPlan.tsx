@@ -2,7 +2,6 @@
 
 import useDeleteItem from '../../components/hook/useDeletePlan'
 import { usePlanState } from '../../zushtand/PlanState'
-import type { CountryType } from '../countrys/CountrysInterface'
 import { Del_Icon } from './AddIcons'
 import type { PlanDataType } from './interfaceAddPage'
 

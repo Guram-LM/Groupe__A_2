@@ -15,8 +15,8 @@ export const SortableItem: React.FC<SortableItemProps> = ({ id, item, removePlan
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: isDragging ? 0.5 : 1, // გადათრევისას გამჭვირვალობა
-    backgroundColor: isDragging ? "#e0f7fa" : "white", // გადათრევისას ფონის ცვლილება
+    opacity: isDragging ? 0.5 : 1, 
+    backgroundColor: isDragging ? "#e0f7fa" : "white", 
   };
 
   return (

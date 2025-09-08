@@ -12,7 +12,7 @@ import useFatchPlan from '../../components/hook/useFatchPlan';
 
 const AddPage: React.FC = () => {
   const { open, closeSidebar } = useOpenClose();
-  const { planState, addPlan, setPlanState } = usePlanState(); // setPlanState-ის დამატება
+  const { planState, addPlan, setPlanState } = usePlanState(); 
   const { data, isLoading } = useFatchPlan('myplan');
 
   const planData: PlanDataType[] = data?.map(item => ({
@@ -23,31 +23,31 @@ const AddPage: React.FC = () => {
     countries: item.data.countries,
   })) ?? [];
 
-  // Drag over ჰენდლერი
+
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.currentTarget.classList.add('dragover');
   };
 
-  // Drag leave ჰენდლერი
+ 
   const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
     e.currentTarget.classList.remove('dragover');
   };
 
-  // Drop ჰენდლერი
+  
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.currentTarget.classList.remove('dragover');
     const cardData = e.dataTransfer.getData('application/json');
     if (cardData) {
       const card: CountryType = JSON.parse(cardData);
-      addPlan(card); // ამატებს გადათრეულ ქვეყანას planState-ში
+      addPlan(card); 
     }
   };
 
-  // თანმიმდევრობის განახლება
+
   const updatePlanOrder = (newData: CountryType[]) => {
-    setPlanState(newData); // განვაახლოთ planState
+    setPlanState(newData);
   };
 
   if (isLoading) {
@@ -76,7 +76,7 @@ const AddPage: React.FC = () => {
             data={planState}
             clearPlan={usePlanState.getState().clearPlan}
             removePlan={usePlanState.getState().removePlan}
-            updatePlanOrder={updatePlanOrder} // გადავცეთ updatePlanOrder
+            updatePlanOrder={updatePlanOrder}
           />
         ) : (
           <OhneCard />

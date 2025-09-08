@@ -16,17 +16,17 @@ interface AddCardProps {
 const AddCard: React.FC<AddCardProps> = ({ data, clearPlan, removePlan, updatePlanOrder }) => {
   const [wechselnButt, setWechselnButt] = useState(false);
 
-  // სენსორები drag-and-drop-ისთვის (მაუსი და კლავიატურა)
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 8, // მაუსის მგრძნობელობა drag-ის დასაწყებად
+        distance: 8, 
       },
     }),
     useSensor(KeyboardSensor)
   );
 
-  // Drag-ის დასრულების დამმუშავებელი
+ 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
 
